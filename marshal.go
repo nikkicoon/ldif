@@ -146,12 +146,17 @@ func Marshal(l *LDIF) (data string, err error) {
 
 func encodeValue(value string) (string, bool) {
 	required := false
+	spaces := true
 	for _, r := range value {
 		if r < ' ' || r > '~' { // ~ = 0x7E, <DEL> = 0x7F
 			required = true
 			break
+		} else if r > ' ' {
+			spaces = false
 		}
 	}
+
+	required = spaces || required
 	if !required {
 		return value, false
 	}
