@@ -1,7 +1,6 @@
 package ldif_test
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -167,7 +166,7 @@ func TestLDIFMultiSpace(t *testing.T) {
 }
 
 func TestLDIFURL(t *testing.T) {
-	f, err := ioutil.TempFile("", "ldifurl")
+	f, err := os.CreateTemp("", "ldifurl")
 	if err != nil {
 		t.Errorf("Failed to create temp file: %s", err)
 	}
