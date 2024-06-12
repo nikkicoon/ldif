@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/go-ldap/ldap/v3"
-	"github.com/go-ldap/ldif"
+	"github.com/nikkicoon/ldif"
 )
 
 var personLDIF = `dn: uid=someone,ou=people,dc=example,dc=org

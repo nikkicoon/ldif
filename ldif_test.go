@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/go-ldap/ldap/v3"
-	"github.com/go-ldap/ldif"
+	"github.com/nikkicoon/ldif"
 )
 
 var ldifRFC2849Example = `version: 1
