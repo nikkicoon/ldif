@@ -8,8 +8,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 
@@ -27,7 +27,7 @@ type Entry struct {
 // The LDIF struct is used for parsing an LDIF. The Controls
 // is used to tell the parser to ignore any controls found
 // when parsing (default: false to ignore the controls).
-// FoldWidth is used for the line lenght when marshalling.
+// FoldWidth is used for the line length when marshalling.
 type LDIF struct {
 	Entries    []*Entry
 	Version    int
@@ -459,7 +459,7 @@ func readURLValue(val string) (string, error) {
 	if u.Scheme != "file" {
 		return "", fmt.Errorf("unsupported URL scheme %s", u.Scheme)
 	}
-	data, err := ioutil.ReadFile(toPath(u))
+	data, err := os.ReadFile(toPath(u))
 	if err != nil {
 		return "", fmt.Errorf("failed to read %s: %s", u.Path, err)
 	}
