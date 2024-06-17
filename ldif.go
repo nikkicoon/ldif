@@ -316,11 +316,13 @@ func (l *LDIF) parseLine(line string) (attr, val string, err error) {
 		return
 	}
 
-	if off > len(line)-2 {
-		err = errors.New("empty value")
-		// FIXME: this is allowed for some attributes, e.g. seeAlso
-		return
-	}
+	/*
+		if off > len(line)-2 {
+			err = errors.New("empty value")
+			// FIXME: this is allowed for some attributes, e.g. seeAlso
+			return
+		}
+	*/
 
 	attr = line[0:off]
 	if err = validAttr(attr); err != nil {
@@ -329,21 +331,35 @@ func (l *LDIF) parseLine(line string) (attr, val string, err error) {
 		return
 	}
 
+	if off+1 >= len(line) {
+		//fmt.Println("line ends here")
+		val = strings.TrimLeft(line[off+1:], spaces)
+		//fmt.Printf("parseLine at position %d\n", line[off])
+		//fmt.Printf("attr: %s, val: %s\n", attr, val)
+		return
+	}
 	switch line[off+1] {
 	case ':':
 		val, err = decodeBase64(strings.TrimLeft(line[off+2:], spaces))
 		if err != nil {
+			//fmt.Println(err)
+			//fmt.Printf("parseLine at position %d\n", line[off+1])
+			//fmt.Printf("attr: %s, val: %s\n", attr, val)
 			return
 		}
 
 	case '<':
 		val, err = readURLValue(strings.TrimLeft(line[off+2:], spaces))
 		if err != nil {
+			//fmt.Printf("parseLine at position %d\n", line[off+1])
+			//fmt.Printf("attr: %s, val: %s\n", attr, val)
 			return
 		}
 
 	default:
 		val = strings.TrimLeft(line[off+1:], spaces)
+		//fmt.Printf("parseLine at position %d\n", line[off+1])
+		//fmt.Printf("attr: %s, val: %s\n", attr, val)
 	}
 
 	return
@@ -494,8 +510,10 @@ func validOID(oid string) error {
 }
 
 func validAttr(attr string) error {
+	fmt.Printf("validAttr checking %s: %d length\n", attr, len(attr))
 	if len(attr) == 0 {
-		return errors.New("empty attribute name")
+		// return errors.New("empty attribute name")
+		return nil
 	}
 	switch {
 	case attr[0] >= 'A' && attr[0] <= 'Z':

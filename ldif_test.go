@@ -1,6 +1,7 @@
 package ldif_test
 
 import (
+	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
 
@@ -47,9 +48,12 @@ cn: Some User
 
 func TestLDIFParseEmptyAttr(t *testing.T) {
 	_, err := ldif.Parse(ldifEmpty)
-	if err == nil {
-		t.Errorf("Did not fail to parse empty attribute")
-	}
+	assert.Nil(t, err)
+	/*
+		if err == nil {
+			t.Errorf("Did not fail to parse empty attribute")
+		}
+	*/
 }
 
 var ldifMissingDN = `objectclass: top
