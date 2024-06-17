@@ -510,7 +510,7 @@ func validOID(oid string) error {
 }
 
 func validAttr(attr string) error {
-	fmt.Printf("validAttr checking %s: %d length\n", attr, len(attr))
+	//fmt.Printf("validAttr checking %s: %d length\n", attr, len(attr))
 	if len(attr) == 0 {
 		// return errors.New("empty attribute name")
 		return nil
